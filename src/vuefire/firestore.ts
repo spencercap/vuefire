@@ -68,6 +68,7 @@ export function internalUnbind(
     | undefined,
   reset?: FirestoreOptions['reset']
 ) {
+  console.log('internalUnbind unbinds', unbinds)
   if (unbinds && unbinds[key]) {
     unbinds[key](reset)
     delete unbinds[key]
@@ -327,5 +328,7 @@ export function useFirestore<T>(
   return [target, promise, unbind!]
 }
 
-export const unbind = (target: Ref, reset?: FirestoreOptions['reset']) =>
+export const unbind = (target: Ref, reset?: FirestoreOptions['reset']) => {
+  console.log('unbind', firestoreUnbinds)
   internalUnbind('', firestoreUnbinds.get(target), reset)
+}

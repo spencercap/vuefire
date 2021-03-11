@@ -775,6 +775,7 @@ var Vuefire = (function (exports, vueDemi) {
     return [promise, unbind]
   }
   function internalUnbind(key, unbinds, reset) {
+    console.log('internalUnbind unbinds', unbinds)
     if (unbinds && unbinds[key]) {
       unbinds[key](reset)
       delete unbinds[key]
@@ -891,8 +892,10 @@ var Vuefire = (function (exports, vueDemi) {
     }
     return promise
   }
-  const unbind = (target, reset) =>
+  const unbind = (target, reset) => {
+    console.log('unbind', firestoreUnbinds)
     internalUnbind('', firestoreUnbinds.get(target), reset)
+  }
 
   exports.firestoreBind = bind
   exports.firestorePlugin = firestorePlugin
