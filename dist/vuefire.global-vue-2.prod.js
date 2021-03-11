@@ -346,9 +346,9 @@ var Vuefire = (function (e, t) {
     R = new WeakMap()
   return (
     (e.firestoreBind = function (e, n, o) {
-      R.set(e, {})
       const [i, s] = $(e, n, o)
       return (
+        R.set(e, { '': s }),
         t.getCurrentInstance() &&
           t.onBeforeUnmount(() => {
             s(o && o.reset)

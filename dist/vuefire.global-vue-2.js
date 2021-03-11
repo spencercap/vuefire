@@ -780,6 +780,13 @@ var Vuefire = (function (exports, vueDemi) {
       unbinds[key](reset)
       delete unbinds[key]
     }
+    //
+    // if (unbinds) {
+    //   if (unbinds[key]) {
+    //     unbinds[key](reset)
+    //     delete unbinds[key]
+    //   }
+    // }
   }
   const defaultOptions = {
     bindName: '$bind',
@@ -877,9 +884,13 @@ var Vuefire = (function (exports, vueDemi) {
   }
   // TODO: allow binding a key of a reactive object?
   function bind(target, docOrCollectionRef, options) {
-    const unbinds = {}
-    firestoreUnbinds.set(target, unbinds)
+    // const unbinds = {}
+    // firestoreUnbinds.set(target, unbinds)
     const [promise, unbind] = internalBind(target, docOrCollectionRef, options)
+    const unbinds = {
+      '': unbind,
+    }
+    firestoreUnbinds.set(target, unbinds)
     // TODO: SSR serialize the values for Nuxt to expose them later and use them
     // as initial values while specifying a wait: true to only swap objects once
     // Firebase has done its initial sync. Also, on server, you don't need to
