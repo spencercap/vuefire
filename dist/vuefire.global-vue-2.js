@@ -570,6 +570,7 @@ var Vuefire = (function (exports, vueDemi) {
     // TODO figure out how to support reactive fields, not just Ref targets
     // attempt
     if (!vueDemi.isRef(target)) {
+      console.log('ref-ifying 1')
       target = vueDemi.ref(target)
     }
     const subs = Object.create(null)
@@ -893,6 +894,10 @@ var Vuefire = (function (exports, vueDemi) {
   function bind(target, docOrCollectionRef, options) {
     // const unbinds = {}
     // firestoreUnbinds.set(target, unbinds)
+    if (!vueDemi.isRef(target)) {
+      console.log('ref-ifying 2')
+      target = vueDemi.ref(target)
+    }
     const [promise, unbind] = internalBind(target, docOrCollectionRef, options)
     const unbinds = {
       '': unbind,

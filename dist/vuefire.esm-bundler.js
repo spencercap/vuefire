@@ -570,6 +570,7 @@ function bindDocument(
   // TODO figure out how to support reactive fields, not just Ref targets
   // attempt
   if (!isRef(target)) {
+    console.log('ref-ifying 1')
     target = ref(target)
   }
   const subs = Object.create(null)
@@ -882,6 +883,10 @@ const firestorePlugin = function firestorePlugin(
 function bind(target, docOrCollectionRef, options) {
   // const unbinds = {}
   // firestoreUnbinds.set(target, unbinds)
+  if (!isRef(target)) {
+    console.log('ref-ifying 2')
+    target = ref(target)
+  }
   const [promise, unbind] = internalBind(target, docOrCollectionRef, options)
   const unbinds = {
     '': unbind,

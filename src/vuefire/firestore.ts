@@ -11,6 +11,7 @@ import {
   App,
   ComponentPublicInstance,
   getCurrentInstance,
+  isRef,
   isVue3,
   onBeforeUnmount,
   onUnmounted,
@@ -276,6 +277,11 @@ export function bind(
 ) {
   // const unbinds = {}
   // firestoreUnbinds.set(target, unbinds)
+  if (!isRef(target)) {
+    console.log('ref-ifying 2')
+    target = ref(target)
+  }
+
   const [promise, unbind] = internalBind(
     target,
     docOrCollectionRef as any,

@@ -206,7 +206,7 @@ var Vuefire = (function (e, t) {
   function p(e, o, i, s, r, c = a) {
     const f = Object.assign({}, a, c),
       d = 'value'
-    t.isRef(e) || (e = t.ref(e))
+    t.isRef(e) || (console.log('ref-ifying 1'), (e = t.ref(e)))
     const h = Object.create(null)
     s = (function (e, t) {
       let n = !1
@@ -333,11 +333,11 @@ var Vuefire = (function (e, t) {
       o,
     ]
   }
-  function P(e, t, n) {
+  function R(e, t, n) {
     console.log('internalUnbind unbinds', t),
       t && t[e] && (t[e](n), delete t[e])
   }
-  const R = {
+  const P = {
       bindName: '$bind',
       unbindName: '$unbind',
       serialize: a.serialize,
@@ -347,6 +347,7 @@ var Vuefire = (function (e, t) {
     z = new WeakMap()
   return (
     (e.firestoreBind = function (e, n, o) {
+      t.isRef(e) || (console.log('ref-ifying 2'), (e = t.ref(e)))
       const [i, s] = $(e, n, o)
       return (
         z.set(e, { '': s }),
@@ -357,12 +358,12 @@ var Vuefire = (function (e, t) {
         i
       )
     }),
-    (e.firestorePlugin = function (e, n = R) {
-      const o = Object.assign({}, R, n),
+    (e.firestorePlugin = function (e, n = P) {
+      const o = Object.assign({}, P, n),
         { bindName: i, unbindName: s } = o,
         r = t.isVue3 ? e.config.globalProperties : e.prototype
       ;(r[s] = function (e, t) {
-        P(e, z.get(this), t), delete this.$firestoreRefs[e]
+        R(e, z.get(this), t), delete this.$firestoreRefs[e]
       }),
         (r[i] = function (e, n, i) {
           const s = Object.assign({}, o, i),
@@ -392,7 +393,7 @@ var Vuefire = (function (e, t) {
         })
     }),
     (e.firestoreUnbind = (e, t) => {
-      console.log('unbind', z), P('', z.get(e), t)
+      console.log('unbind', z), R('', z.get(e), t)
     }),
     (e.rtdbBind = function (e, n, o) {
       const i = {}
