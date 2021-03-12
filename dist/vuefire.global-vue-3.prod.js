@@ -203,25 +203,26 @@ var Vuefire = (function (e, t) {
       g.forEach(u)
     }
   }
-  function p(e, t, o, i, s, r = a) {
-    const c = Object.assign({}, a, r),
-      f = 'value',
-      d = Object.create(null)
-    i = (function (e, t) {
+  function p(e, o, i, s, r, c = a) {
+    const f = Object.assign({}, a, c),
+      d = 'value'
+    t.isRef(e) || (e = t.ref(e))
+    const h = Object.create(null)
+    s = (function (e, t) {
       let n = !1
       return () => {
         if (!n) return (n = !0), e(t())
       }
-    })(i, () => n(e, f))
-    const h = t.onSnapshot((t) => {
-      t.exists ? l(c, e, f, t, d, o, 0, i) : (o.set(e, f, null), i(null))
-    }, s)
+    })(s, () => n(e, d))
+    const b = o.onSnapshot((t) => {
+      t.exists ? l(f, e, d, t, h, i, 0, s) : (i.set(e, d, null), s(null))
+    }, r)
     return (t) => {
-      if ((h(), !1 !== t)) {
+      if ((b(), !1 !== t)) {
         const n = 'function' == typeof t ? t() : null
-        o.set(e, f, n)
+        i.set(e, d, n)
       }
-      u(d)
+      u(h)
     }
   }
   const g = {
@@ -336,19 +337,19 @@ var Vuefire = (function (e, t) {
     console.log('internalUnbind unbinds', t),
       t && t[e] && (t[e](n), delete t[e])
   }
-  const z = {
+  const R = {
       bindName: '$bind',
       unbindName: '$unbind',
       serialize: a.serialize,
       reset: a.reset,
       wait: a.wait,
     },
-    R = new WeakMap()
+    z = new WeakMap()
   return (
     (e.firestoreBind = function (e, n, o) {
       const [i, s] = $(e, n, o)
       return (
-        R.set(e, { '': s }),
+        z.set(e, { '': s }),
         t.getCurrentInstance() &&
           t.onBeforeUnmount(() => {
             s(o && o.reset)
@@ -356,21 +357,21 @@ var Vuefire = (function (e, t) {
         i
       )
     }),
-    (e.firestorePlugin = function (e, n = z) {
-      const o = Object.assign({}, z, n),
+    (e.firestorePlugin = function (e, n = R) {
+      const o = Object.assign({}, R, n),
         { bindName: i, unbindName: s } = o,
         r = t.isVue3 ? e.config.globalProperties : e.prototype
       ;(r[s] = function (e, t) {
-        P(e, R.get(this), t), delete this.$firestoreRefs[e]
+        P(e, z.get(this), t), delete this.$firestoreRefs[e]
       }),
         (r[i] = function (e, n, i) {
           const s = Object.assign({}, o, i),
             r = t.toRef(this.$data, e)
-          let c = R.get(this)
+          let c = z.get(this)
           c
             ? c[e] &&
               c[e](s.wait ? 'function' == typeof s.reset && s.reset : s.reset)
-            : R.set(this, (c = {}))
+            : z.set(this, (c = {}))
           const [f, a] = $(r, n, s)
           return (c[e] = a), (this.$firestoreRefs[e] = n), f
         }),
@@ -384,14 +385,14 @@ var Vuefire = (function (e, t) {
             if (t) for (const e in t) this[i](e, t[e], o)
           },
           beforeUnmount() {
-            const e = R.get(this)
+            const e = z.get(this)
             if (e) for (const t in e) e[t]()
             this.$firestoreRefs = null
           },
         })
     }),
     (e.firestoreUnbind = (e, t) => {
-      console.log('unbind', R), P('', R.get(e), t)
+      console.log('unbind', z), P('', z.get(e), t)
     }),
     (e.rtdbBind = function (e, n, o) {
       const i = {}

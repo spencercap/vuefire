@@ -6,6 +6,7 @@
 import {
   ref,
   unref,
+  isRef,
   isVue3,
   toRef,
   getCurrentInstance,
@@ -562,8 +563,15 @@ function bindDocument(
 ) {
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
+  // const key = isReactive(target) ? '' : 'value'
+  // const key = isRef(target) ? 'value' : ''
   // TODO: warning check if key exists?
   // const boundRefs = Object.create(null)
+  // TODO figure out how to support reactive fields, not just Ref targets
+  // attempt
+  if (!isRef(target)) {
+    target = ref(target)
+  }
   const subs = Object.create(null)
   // bind here the function so it can be resolved anywhere
   // this is specially useful for refs
