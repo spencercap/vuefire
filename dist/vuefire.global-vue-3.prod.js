@@ -149,7 +149,7 @@ var Vuefire = (function (e, t) {
       l = 'value',
       d = new Map()
     c.wait || o.set(e, l, d)
-    let p = t.ref(c.wait ? [] : e[l])
+    let p = t.ref(c.wait ? d : e[l])
     const b = i
     let g
     const y = [],

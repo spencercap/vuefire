@@ -441,7 +441,7 @@ function bindCollection(
   const coll = new Map()
   if (!options.wait) ops.set(target, key, coll)
   // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0
-  let arrayRef = ref(options.wait ? [] : target[key])
+  let arrayRef = ref(options.wait ? coll : target[key])
   // let arrayRef = ref(options.wait ? coll : target[key])
   const originalResolve = resolve
   let isResolved
