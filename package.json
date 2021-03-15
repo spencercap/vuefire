@@ -29,7 +29,7 @@
   "files": [
     "dist/*.js",
     "dist/vuefire.d.ts",
-    "dist/src/vuefire/index.d.ts",
+    "dist/src/vuefire/*",
     "LICENSE",
     "README.md"
   ],
