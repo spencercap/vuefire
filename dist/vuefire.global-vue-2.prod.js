@@ -145,6 +145,7 @@ var Vuefire = (function (e, t) {
     })
   }
   function p(e, n, o, i, s, r = f) {
+    console.log('bindCollection target', e)
     const c = Object.assign({}, f, r),
       l = 'value',
       d = new Map()

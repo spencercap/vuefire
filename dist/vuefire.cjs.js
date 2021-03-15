@@ -432,6 +432,7 @@ function bindCollection(
   reject,
   extraOptions = DEFAULT_OPTIONS
 ) {
+  console.log('bindCollection target', target)
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
   // if (!options.wait) ops.set(target, key, [])
