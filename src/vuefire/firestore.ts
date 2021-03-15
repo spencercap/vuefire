@@ -20,9 +20,13 @@ import {
 } from 'vue-demi'
 
 export const ops: OperationsType = {
+  // used by bindDocument
   set: (target, key, value) => walkSet(target, key, value),
-  add: (array, index, data) => array.splice(index, 0, data),
-  remove: (array, index) => array.splice(index, 1),
+  // used by bindCollection
+  add: (map, key, data) => map.set(key, data),
+  remove: (map, key) => map.delete(key),
+  // add: (array, index, data) => array.splice(index, 0, data),
+  // remove: (array, index) => array.splice(index, 1),
 }
 
 type UnbindType = ReturnType<typeof bindCollection | typeof bindDocument>

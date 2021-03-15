@@ -432,7 +432,10 @@ var Vuefire = (function (exports, vueDemi) {
   ) {
     const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
     const key = 'value'
-    if (!options.wait) ops.set(target, key, [])
+    // if (!options.wait) ops.set(target, key, [])
+    const coll = new Map()
+    if (!options.wait) ops.set(target, key, coll)
+    // TODO fix:
     let arrayRef = vueDemi.ref(options.wait ? [] : target[key])
     const originalResolve = resolve
     let isResolved
@@ -448,7 +451,8 @@ var Vuefire = (function (exports, vueDemi) {
           undefined,
           subs
         )
-        ops.add(vueDemi.unref(arrayRef), newIndex, data)
+        // ops.add(unref(arrayRef), newIndex, data)
+        ops.add(coll, doc.id, data)
         subscribeToRefs(
           options,
           arrayRef,
@@ -466,10 +470,10 @@ var Vuefire = (function (exports, vueDemi) {
         const oldData = array[oldIndex]
         const [data, refs] = extractRefs(options.serialize(doc), oldData, subs)
         // only move things around after extracting refs
-        // only move things around after extracting refs
         arraySubs.splice(newIndex, 0, subs)
-        ops.remove(array, oldIndex)
-        ops.add(array, newIndex, data)
+        // ops.remove(array, oldIndex)
+        // ops.add(array, newIndex, data)
+        ops.add(coll, doc.id, data)
         subscribeToRefs(
           options,
           arrayRef,
@@ -481,9 +485,10 @@ var Vuefire = (function (exports, vueDemi) {
           resolve
         )
       },
-      removed: ({ oldIndex }) => {
-        const array = vueDemi.unref(arrayRef)
-        ops.remove(array, oldIndex)
+      removed: ({ oldIndex, doc }) => {
+        // const array = unref(arrayRef)
+        // ops.remove(array, oldIndex)
+        ops.remove(coll, doc.id)
         unsubscribeAll(arraySubs.splice(oldIndex, 1)[0])
       },
     }
@@ -755,9 +760,13 @@ var Vuefire = (function (exports, vueDemi) {
     internalUnbind$1('', rtdbUnbinds.get(target), reset)
 
   const ops = {
+    // used by bindDocument
     set: (target, key, value) => walkSet(target, key, value),
-    add: (array, index, data) => array.splice(index, 0, data),
-    remove: (array, index) => array.splice(index, 1),
+    // used by bindCollection
+    add: (map, key, data) => map.set(key, data),
+    remove: (map, key) => map.delete(key),
+    // add: (array, index, data) => array.splice(index, 0, data),
+    // remove: (array, index) => array.splice(index, 1),
   }
   function internalBind(target, docOrCollectionRef, options) {
     let unbind

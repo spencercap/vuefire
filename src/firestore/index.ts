@@ -191,7 +191,10 @@ export function bindCollection(
 ) {
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
-  if (!options.wait) ops.set(target, key, [])
+  // if (!options.wait) ops.set(target, key, [])
+  const coll = new Map()
+  if (!options.wait) ops.set(target, key, coll)
+  // TODO fix:
   let arrayRef = ref(options.wait ? [] : target[key])
   const originalResolve = resolve
   let isResolved: boolean
@@ -205,7 +208,8 @@ export function bindCollection(
       arraySubs.splice(newIndex, 0, Object.create(null))
       const subs = arraySubs[newIndex]
       const [data, refs] = extractRefs(options.serialize(doc), undefined, subs)
-      ops.add(unref(arrayRef), newIndex, data)
+      // ops.add(unref(arrayRef), newIndex, data)
+      ops.add(coll, doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -223,10 +227,10 @@ export function bindCollection(
       const oldData = array[oldIndex]
       const [data, refs] = extractRefs(options.serialize(doc), oldData, subs)
       // only move things around after extracting refs
-      // only move things around after extracting refs
       arraySubs.splice(newIndex, 0, subs)
-      ops.remove(array, oldIndex)
-      ops.add(array, newIndex, data)
+      // ops.remove(array, oldIndex)
+      // ops.add(array, newIndex, data)
+      ops.add(coll, doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -238,9 +242,10 @@ export function bindCollection(
         resolve
       )
     },
-    removed: ({ oldIndex }: firestore.DocumentChange) => {
-      const array = unref(arrayRef)
-      ops.remove(array, oldIndex)
+    removed: ({ oldIndex, doc }: firestore.DocumentChange) => {
+      // const array = unref(arrayRef)
+      // ops.remove(array, oldIndex)
+      ops.remove(coll, doc.id)
       unsubscribeAll(arraySubs.splice(oldIndex, 1)[0])
     },
   }
