@@ -19,6 +19,7 @@ import {
  * @param path
  */
 function walkGet(obj, path) {
+  console.log('walkGet', obj, path)
   // TODO: development warning when target[key] does not exist
   return path.split('.').reduce((target, key) => target[key], obj)
 }
