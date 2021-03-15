@@ -435,15 +435,14 @@ function bindCollection(
   reject,
   extraOptions = DEFAULT_OPTIONS
 ) {
-  console.log('bindCollection target', target)
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
-  // if (!options.wait) ops.set(target, key, [])
   const coll = new Map()
   if (!options.wait) ops.set(target, key, coll)
+  // if (!options.wait) ops.set(target, key, [])
   // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0
   let arrayRef = ref(options.wait ? coll : target[key])
-  // let arrayRef = ref(options.wait ? coll : target[key])
+  // let arrayRef = ref(options.wait ? [] : target[key])
   const originalResolve = resolve
   let isResolved
   // contain ref subscriptions of objects
@@ -523,11 +522,14 @@ function bindCollection(
           if (++count >= expectedItems) {
             // if wait is true, finally set the array
             if (options.wait) {
-              ops.set(target, key, unref(arrayRef))
+              // resolve the built collection
+              ops.set(target, key, coll)
+              // ops.set(target, key, unref(arrayRef))
               // use the proxy object
               // arrayRef = target.value
             }
-            originalResolve(unref(arrayRef))
+            originalResolve(coll)
+            // originalResolve(unref(arrayRef))
             // reset resolve to noop
             resolve = () => {}
           }
@@ -542,11 +544,14 @@ function bindCollection(
     // being called multiple times
     if (!docChanges.length) {
       if (options.wait) {
-        ops.set(target, key, unref(arrayRef))
+        // resolve the built collection
+        ops.set(target, key, coll)
+        // ops.set(target, key, unref(arrayRef))
         // use the proxy object
         // arrayRef = target.value
       }
-      resolve(unref(arrayRef))
+      resolve(unref(coll))
+      // resolve(unref(arrayRef))
     }
   }, reject)
   return (reset) => {
@@ -763,10 +768,7 @@ const ops = {
   // used by bindDocument
   set: (target, key, value) => walkSet(target, key, value),
   // used by bindCollection
-  add: (target, key, data) => {
-    console.log('ops.add', target, key, data)
-    target.set(key, data)
-  },
+  add: (target, key, data) => target.set(key, data),
   remove: (target, key) => target.delete(key),
   // not deep reactive
   // add: (map, key, data) => map.set(key, data),

@@ -145,7 +145,6 @@ var Vuefire = (function (e, t) {
     })
   }
   function p(e, n, o, i, s, r = f) {
-    console.log('bindCollection target', e)
     const c = Object.assign({}, f, r),
       l = 'value',
       d = new Map()
@@ -180,20 +179,20 @@ var Vuefire = (function (e, t) {
           'function' == typeof n.docChanges ? n.docChanges() : n.docChanges
         if (!g && s.length) {
           g = !0
-          let n = 0
-          const r = s.length,
-            a = Object.create(null)
-          for (let e = 0; e < r; e++) a[s[e].doc.id] = !0
+          let t = 0
+          const n = s.length,
+            r = Object.create(null)
+          for (let e = 0; e < n; e++) r[s[e].doc.id] = !0
           i = ({ id: s }) => {
-            s in a &&
-              ++n >= r &&
-              (c.wait && o.set(e, l, t.unref(p)), b(t.unref(p)), (i = () => {}))
+            s in r &&
+              ++t >= n &&
+              (c.wait && o.set(e, l, d), b(d), (i = () => {}))
           }
         }
         s.forEach((e) => {
           m[e.type](e)
         }),
-          s.length || (c.wait && o.set(e, l, t.unref(p)), i(t.unref(p)))
+          s.length || (c.wait && o.set(e, l, d), i(t.unref(d)))
       }, s)
     return (t) => {
       if ((v(), !1 !== t)) {
@@ -320,9 +319,7 @@ var Vuefire = (function (e, t) {
   const O = (e, t) => m('', j.get(e), t),
     w = {
       set: (e, t, n) => o(e, t, n),
-      add: (e, t, n) => {
-        console.log('ops.add', e, t, n), e.set(t, n)
-      },
+      add: (e, t, n) => e.set(t, n),
       remove: (e, t) => e.delete(t),
     }
   function $(e, t, n) {

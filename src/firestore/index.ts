@@ -189,16 +189,14 @@ export function bindCollection(
   reject: BindCollectionParameter['reject'],
   extraOptions: FirestoreOptions = DEFAULT_OPTIONS
 ) {
-  console.log('bindCollection target', target)
-
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
-  // if (!options.wait) ops.set(target, key, [])
   const coll = new Map()
   if (!options.wait) ops.set(target, key, coll)
+  // if (!options.wait) ops.set(target, key, [])
   // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0
   let arrayRef = ref(options.wait ? coll : target[key])
-  // let arrayRef = ref(options.wait ? coll : target[key])
+  // let arrayRef = ref(options.wait ? [] : target[key])
   const originalResolve = resolve
   let isResolved: boolean
 
@@ -284,11 +282,14 @@ export function bindCollection(
           if (++count >= expectedItems) {
             // if wait is true, finally set the array
             if (options.wait) {
-              ops.set(target, key, unref(arrayRef))
+              // resolve the built collection
+              ops.set(target, key, coll)
+              // ops.set(target, key, unref(arrayRef))
               // use the proxy object
               // arrayRef = target.value
             }
-            originalResolve(unref(arrayRef))
+            originalResolve(coll)
+            // originalResolve(unref(arrayRef))
             // reset resolve to noop
             resolve = () => {}
           }
@@ -304,11 +305,14 @@ export function bindCollection(
     // being called multiple times
     if (!docChanges.length) {
       if (options.wait) {
-        ops.set(target, key, unref(arrayRef))
+        // resolve the built collection
+        ops.set(target, key, coll)
+        // ops.set(target, key, unref(arrayRef))
         // use the proxy object
         // arrayRef = target.value
       }
-      resolve(unref(arrayRef))
+      resolve(unref(coll))
+      // resolve(unref(arrayRef))
     }
   }, reject)
 
