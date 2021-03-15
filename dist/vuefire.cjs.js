@@ -435,6 +435,7 @@ function bindCollection(
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
   const coll = new Map()
+  target[key] = coll
   if (!options.wait) ops.set(target, key, coll)
   // if (!options.wait) ops.set(target, key, [])
   // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0
@@ -768,8 +769,11 @@ const ops = {
   // used by bindDocument
   set: (target, key, value) => walkSet(target, key, value),
   // used by bindCollection
-  add: (target, key, data) => target && target.set(key, data),
-  remove: (target, key) => target && target.delete(key),
+  add: (target, key, data) => target.set(key, data),
+  remove: (target, key) => target.delete(key),
+  // add: (target, key, data) => target && target.set(key, data),
+  // remove: (target, key) => target && target.delete(key),
+  //
   // not deep reactive
   // add: (map, key, data) => map.set(key, data),
   // remove: (map, key) => map.delete(key)

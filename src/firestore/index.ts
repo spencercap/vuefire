@@ -192,6 +192,7 @@ export function bindCollection(
   const options = Object.assign({}, DEFAULT_OPTIONS, extraOptions) // fill default values
   const key = 'value'
   const coll = new Map()
+  target[key] = coll
   if (!options.wait) ops.set(target, key, coll)
   // if (!options.wait) ops.set(target, key, [])
   // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0

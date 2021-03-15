@@ -148,7 +148,7 @@ var Vuefire = (function (e, t) {
     const c = Object.assign({}, f, r),
       l = 'value',
       d = new Map()
-    c.wait || o.set(e, l, d)
+    ;(e[l] = d), c.wait || o.set(e, l, d)
     let p = t.ref(c.wait ? d : e[l])
     const b = i
     let g
@@ -319,8 +319,8 @@ var Vuefire = (function (e, t) {
   const O = (e, t) => m('', j.get(e), t),
     w = {
       set: (e, t, n) => o(e, t, n),
-      add: (e, t, n) => e && e.set(t, n),
-      remove: (e, t) => e && e.delete(t),
+      add: (e, t, n) => e.set(t, n),
+      remove: (e, t) => e.delete(t),
     }
   function $(e, t, n) {
     let o
