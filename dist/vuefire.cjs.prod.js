@@ -15,6 +15,7 @@ var vueDemi = require('vue-demi')
  * @param obj
  * @param path
  */
+// TODO work for Map collections too. path being passed in is "value.6.xyzRef" 6 is the index but it thinks its a key
 function walkGet(obj, path) {
   console.log('walkGet', obj, path)
   // TODO: development warning when target[key] does not exist
@@ -299,7 +300,7 @@ function extractRefs(doc, oldDoc, subs) {
 }
 
 const DEFAULT_OPTIONS = {
-  maxRefDepth: 2,
+  maxRefDepth: 0,
   reset: true,
   serialize: createSnapshot,
   wait: false,
@@ -436,8 +437,9 @@ function bindCollection(
   // if (!options.wait) ops.set(target, key, [])
   const coll = new Map()
   if (!options.wait) ops.set(target, key, coll)
-  // TODO fix:
+  // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0
   let arrayRef = vueDemi.ref(options.wait ? [] : target[key])
+  // let arrayRef = ref(options.wait ? coll : target[key])
   const originalResolve = resolve
   let isResolved
   // contain ref subscriptions of objects

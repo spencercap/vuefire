@@ -79,7 +79,7 @@ var Vuefire = (function (e, t) {
     )
   }
   const f = {
-    maxRefDepth: 2,
+    maxRefDepth: 0,
     reset: !0,
     serialize: function (e) {
       return Object.defineProperty(e.data() || {}, 'id', { value: e.id })

@@ -18,6 +18,7 @@ export type TODO = any
  * @param obj
  * @param path
  */
+// TODO work for Map collections too. path being passed in is "value.6.xyzRef" 6 is the index but it thinks its a key
 export function walkGet(obj: Record<string, any>, path: string): any {
   console.log('walkGet', obj, path)
   // TODO: development warning when target[key] does not exist

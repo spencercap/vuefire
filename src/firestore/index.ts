@@ -11,7 +11,7 @@ export interface FirestoreOptions {
 }
 
 const DEFAULT_OPTIONS: Required<FirestoreOptions> = {
-  maxRefDepth: 2,
+  maxRefDepth: 0,
   reset: true,
   serialize: createSnapshot,
   wait: false,
@@ -194,8 +194,9 @@ export function bindCollection(
   // if (!options.wait) ops.set(target, key, [])
   const coll = new Map()
   if (!options.wait) ops.set(target, key, coll)
-  // TODO fix:
+  // TODO fix: allow FirestoreRef fields... they break is maxRefDepth !== 0
   let arrayRef = ref(options.wait ? [] : target[key])
+  // let arrayRef = ref(options.wait ? coll : target[key])
   const originalResolve = resolve
   let isResolved: boolean
 
