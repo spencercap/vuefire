@@ -319,8 +319,8 @@ var Vuefire = (function (e, t) {
   const O = (e, t) => m('', j.get(e), t),
     w = {
       set: (e, t, n) => o(e, t, n),
-      add: (e, t, n) => e?.set(t, n),
-      remove: (e, t) => e?.delete(t),
+      add: (e, t, n) => e && e.set(t, n),
+      remove: (e, t) => e && e.delete(t),
     }
   function $(e, t, n) {
     let o

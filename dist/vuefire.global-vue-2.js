@@ -775,8 +775,8 @@ var Vuefire = (function (exports, vueDemi) {
     // used by bindDocument
     set: (target, key, value) => walkSet(target, key, value),
     // used by bindCollection
-    add: (target, key, data) => target?.set(key, data),
-    remove: (target, key) => target?.delete(key),
+    add: (target, key, data) => target && target.set(key, data),
+    remove: (target, key) => target && target.delete(key),
     // not deep reactive
     // add: (map, key, data) => map.set(key, data),
     // remove: (map, key) => map.delete(key)
