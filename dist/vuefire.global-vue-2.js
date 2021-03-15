@@ -455,7 +455,7 @@ var Vuefire = (function (exports, vueDemi) {
           subs
         )
         // ops.add(unref(arrayRef), newIndex, data)
-        ops.add(target[key], doc.id, data)
+        ops.add(coll, doc.id, data)
         subscribeToRefs(
           options,
           arrayRef,
@@ -476,8 +476,8 @@ var Vuefire = (function (exports, vueDemi) {
         arraySubs.splice(newIndex, 0, subs)
         // ops.remove(array, oldIndex)
         // ops.add(array, newIndex, data)
-        // ops.add(coll, doc.id, data)
-        ops.add(target[key], doc.id, data)
+        ops.add(coll, doc.id, data)
+        // ops.add(target[key], doc.id, data)
         subscribeToRefs(
           options,
           arrayRef,
@@ -492,8 +492,8 @@ var Vuefire = (function (exports, vueDemi) {
       removed: ({ oldIndex, doc }) => {
         // const array = unref(arrayRef)
         // ops.remove(array, oldIndex)
-        // ops.remove(coll, doc.id)
-        ops.remove(target[key], doc.id)
+        ops.remove(coll, doc.id)
+        // ops.remove(target[key], doc.id)
         unsubscribeAll(arraySubs.splice(oldIndex, 1)[0])
       },
     }
