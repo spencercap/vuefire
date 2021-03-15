@@ -11,7 +11,6 @@ import {
   App,
   ComponentPublicInstance,
   getCurrentInstance,
-  isRef,
   isVue3,
   onBeforeUnmount,
   onUnmounted,

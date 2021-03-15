@@ -11,16 +11,16 @@ var Vuefire = (function (e, t) {
   function o(e, t, n) {
     const o = ('' + t).split('.'),
       i = o.pop(),
-      s = o.reduce((e, t) => e[t], e)
-    return Array.isArray(s) ? s.splice(Number(i), 1, n) : (s[i] = n)
+      r = o.reduce((e, t) => e[t], e)
+    return Array.isArray(r) ? r.splice(Number(i), 1, n) : (r[i] = n)
   }
   function i(e) {
     return e && 'object' == typeof e
   }
-  function s(e) {
+  function r(e) {
     return e && e.onSnapshot
   }
-  function r(e, t) {
+  function s(e, t) {
     for (let n = 0; n < e.length; n++) if (e[n]['.key'] === t) return n
     return -1
   }
@@ -35,7 +35,7 @@ var Vuefire = (function (e, t) {
   }
   function f(e, t, n) {
     const o = [{}, {}],
-      r = Object.keys(n).reduce((e, t) => {
+      s = Object.keys(n).reduce((e, t) => {
         const o = n[t]
         return (e[o.path] = o.data()), e
       }, {})
@@ -56,7 +56,7 @@ var Vuefire = (function (e, t) {
             (u.longitude && u.latitude)
           )
             f[c] = u
-          else if (s(u))
+          else if (r(u))
             (f[c] =
               'object' == typeof n && c in n && 'string' != typeof n[c]
                 ? n[c]
@@ -66,7 +66,7 @@ var Vuefire = (function (e, t) {
             f[c] = Array(u.length)
             for (let e = 0; e < u.length; e++) {
               const t = u[e]
-              t && t.path in r && (f[c][e] = r[t.path])
+              t && t.path in s && (f[c][e] = s[t.path])
             }
             e(u, n[c] || f[c], o + c + '.', [f[c], a])
           } else
@@ -89,21 +89,21 @@ var Vuefire = (function (e, t) {
   function u(e) {
     for (const t in e) e[t].unsub()
   }
-  function l(e, t, o, i, s, r, c, a) {
-    const [u, l] = f(e.serialize(i), n(t, o), s)
-    r.set(t, o, u), h(e, t, o, s, l, r, c, a)
+  function l(e, t, o, i, r, s, c, a) {
+    const [u, l] = f(e.serialize(i), n(t, o), r)
+    s.set(t, o, u), h(e, t, o, r, l, s, c, a)
   }
-  function d({ ref: e, target: t, path: n, depth: o, resolve: i, ops: s }, r) {
+  function d({ ref: e, target: t, path: n, depth: o, resolve: i, ops: r }, s) {
     const c = Object.create(null),
       f = e.onSnapshot((e) => {
-        e.exists ? l(r, t, n, e, c, s, o, i) : (s.set(t, n, null), i())
+        e.exists ? l(s, t, n, e, c, r, o, i) : (r.set(t, n, null), i())
       })
     return () => {
       f(), u(c)
     }
   }
-  function h(e, t, o, i, s, r, c, f) {
-    const a = Object.keys(s)
+  function h(e, t, o, i, r, s, c, f) {
+    const a = Object.keys(r)
     if (
       (Object.keys(i)
         .filter((e) => a.indexOf(e) < 0)
@@ -116,12 +116,12 @@ var Vuefire = (function (e, t) {
     let u = 0
     const l = a.length,
       h = Object.create(null)
-    function b(e) {
+    function p(e) {
       e in h && ++u >= l && f(o)
     }
     a.forEach((f) => {
       const a = i[f],
-        u = s[f],
+        u = r[f],
         l = `${o}.${f}`
       if (((h[l] = !0), a)) {
         if (a.path === u.path) return
@@ -135,8 +135,8 @@ var Vuefire = (function (e, t) {
             target: t,
             path: l,
             depth: c,
-            ops: r,
-            resolve: b.bind(null, l),
+            ops: s,
+            resolve: p.bind(null, l),
           },
           e
         ),
@@ -144,31 +144,31 @@ var Vuefire = (function (e, t) {
       }
     })
   }
-  function b(e, n, o, i, s, r = a) {
-    const c = Object.assign({}, a, r),
+  function p(e, n, o, i, r, s = a) {
+    const c = Object.assign({}, a, s),
       l = 'value'
     c.wait || o.set(e, l, [])
     let d = t.ref(c.wait ? [] : e[l])
-    const b = i
-    let p
+    const p = i
+    let b
     const g = [],
       y = {
         added: ({ newIndex: e, doc: n }) => {
           g.splice(e, 0, Object.create(null))
-          const s = g[e],
-            [r, a] = f(c.serialize(n), void 0, s)
-          o.add(t.unref(d), e, r),
-            h(c, d, `value.${e}`, s, a, o, 0, i.bind(null, n))
+          const r = g[e],
+            [s, a] = f(c.serialize(n), void 0, r)
+          o.add(t.unref(d), e, s),
+            h(c, d, `value.${e}`, r, a, o, 0, i.bind(null, n))
         },
-        modified: ({ oldIndex: e, newIndex: n, doc: s }) => {
-          const r = t.unref(d),
+        modified: ({ oldIndex: e, newIndex: n, doc: r }) => {
+          const s = t.unref(d),
             a = g[e],
-            u = r[e],
-            [l, b] = f(c.serialize(s), u, a)
+            u = s[e],
+            [l, p] = f(c.serialize(r), u, a)
           g.splice(n, 0, a),
-            o.remove(r, e),
-            o.add(r, n, l),
-            h(c, d, `value.${n}`, a, b, o, 0, i)
+            o.remove(s, e),
+            o.add(s, n, l),
+            h(c, d, `value.${n}`, a, p, o, 0, i)
         },
         removed: ({ oldIndex: e }) => {
           const n = t.unref(d)
@@ -176,25 +176,25 @@ var Vuefire = (function (e, t) {
         },
       },
       m = n.onSnapshot((n) => {
-        const s =
+        const r =
           'function' == typeof n.docChanges ? n.docChanges() : n.docChanges
-        if (!p && s.length) {
-          p = !0
+        if (!b && r.length) {
+          b = !0
           let n = 0
-          const r = s.length,
+          const s = r.length,
             f = Object.create(null)
-          for (let e = 0; e < r; e++) f[s[e].doc.id] = !0
-          i = ({ id: s }) => {
-            s in f &&
-              ++n >= r &&
-              (c.wait && o.set(e, l, t.unref(d)), b(t.unref(d)), (i = () => {}))
+          for (let e = 0; e < s; e++) f[r[e].doc.id] = !0
+          i = ({ id: r }) => {
+            r in f &&
+              ++n >= s &&
+              (c.wait && o.set(e, l, t.unref(d)), p(t.unref(d)), (i = () => {}))
           }
         }
-        s.forEach((e) => {
+        r.forEach((e) => {
           y[e.type](e)
         }),
-          s.length || (c.wait && o.set(e, l, t.unref(d)), i(t.unref(d)))
-      }, s)
+          r.length || (c.wait && o.set(e, l, t.unref(d)), i(t.unref(d)))
+      }, r)
     return (t) => {
       if ((m(), !1 !== t)) {
         const n = 'function' == typeof t ? t() : []
@@ -203,26 +203,25 @@ var Vuefire = (function (e, t) {
       g.forEach(u)
     }
   }
-  function p(e, o, i, s, r, c = a) {
-    const f = Object.assign({}, a, c),
-      d = 'value'
-    t.isRef(e) || (console.log('ref-ifying 1'), (e = t.ref(e)))
-    const h = Object.create(null)
-    s = (function (e, t) {
+  function b(e, t, o, i, r, s = a) {
+    const c = Object.assign({}, a, s),
+      f = 'value',
+      d = Object.create(null)
+    i = (function (e, t) {
       let n = !1
       return () => {
         if (!n) return (n = !0), e(t())
       }
-    })(s, () => n(e, d))
-    const b = o.onSnapshot((t) => {
-      t.exists ? l(f, e, d, t, h, i, 0, s) : (i.set(e, d, null), s(null))
+    })(i, () => n(e, f))
+    const h = t.onSnapshot((t) => {
+      t.exists ? l(c, e, f, t, d, o, 0, i) : (o.set(e, f, null), i(null))
     }, r)
     return (t) => {
-      if ((b(), !1 !== t)) {
+      if ((h(), !1 !== t)) {
         const n = 'function' == typeof t ? t() : null
-        i.set(e, d, n)
+        o.set(e, f, n)
       }
-      u(h)
+      u(d)
     }
   }
   const g = {
@@ -230,80 +229,80 @@ var Vuefire = (function (e, t) {
     add: (e, t, n) => e.splice(t, 0, n),
     remove: (e, t) => e.splice(t, 1),
   }
-  function y(e, n, o, i, s) {
+  function y(e, n, o, i, r) {
     return new Promise((f, a) => {
       let u
       ;(u = Array.isArray(e.value)
         ? (function (
-            { target: e, collection: n, resolve: o, reject: i, ops: s },
+            { target: e, collection: n, resolve: o, reject: i, ops: r },
             f = c
           ) {
             const a = Object.assign({}, c, f),
               u = 'value'
-            a.wait || s.set(e, u, [])
+            a.wait || r.set(e, u, [])
             let l = t.ref(a.wait ? [] : e[u])
             const d = n.on('child_added', (e, n) => {
                 const o = t.unref(l),
-                  i = n ? r(o, n) + 1 : 0
-                s.add(o, i, a.serialize(e))
+                  i = n ? s(o, n) + 1 : 0
+                r.add(o, i, a.serialize(e))
               }),
               h = n.on('child_removed', (e) => {
                 const n = t.unref(l)
-                s.remove(n, r(n, e.key))
+                r.remove(n, s(n, e.key))
               }),
-              b = n.on('child_changed', (e) => {
+              p = n.on('child_changed', (e) => {
                 const n = t.unref(l)
-                s.set(n, r(n, e.key), a.serialize(e))
+                r.set(n, s(n, e.key), a.serialize(e))
               }),
-              p = n.on('child_moved', (e, n) => {
+              b = n.on('child_moved', (e, n) => {
                 const o = t.unref(l),
-                  i = r(o, e.key),
-                  c = s.remove(o, i)[0],
-                  f = n ? r(o, n) + 1 : 0
-                s.add(o, f, c)
+                  i = s(o, e.key),
+                  c = r.remove(o, i)[0],
+                  f = n ? s(o, n) + 1 : 0
+                r.add(o, f, c)
               })
             return (
               n.once(
                 'value',
                 (n) => {
                   const i = t.unref(l)
-                  a.wait && s.set(e, u, i), o(n)
+                  a.wait && r.set(e, u, i), o(n)
                 },
                 i
               ),
               (t) => {
                 if (
                   (n.off('child_added', d),
-                  n.off('child_changed', b),
+                  n.off('child_changed', p),
                   n.off('child_removed', h),
-                  n.off('child_moved', p),
+                  n.off('child_moved', b),
                   !1 !== t)
                 ) {
                   const n = 'function' == typeof t ? t() : []
-                  s.set(e, u, n)
+                  r.set(e, u, n)
                 }
               }
             )
-          })({ target: e, collection: o, resolve: f, reject: a, ops: g }, s)
+          })({ target: e, collection: o, resolve: f, reject: a, ops: g }, r)
         : (function (
             { target: e, document: t, resolve: n, reject: o, ops: i },
-            s = c
+            r = c
           ) {
-            const r = 'value',
-              f = Object.assign({}, c, s),
+            const s = 'value',
+              f = Object.assign({}, c, r),
               a = t.on('value', (t) => {
-                i.set(e, r, f.serialize(t))
+                i.set(e, s, f.serialize(t))
               })
             return (
               t.once('value', n, o),
               (n) => {
                 if ((t.off('value', a), !1 !== n)) {
                   const t = 'function' == typeof n ? n() : null
-                  i.set(e, r, t)
+                  i.set(e, s, t)
                 }
               }
             )
-          })({ target: e, document: o, resolve: f, reject: a, ops: g }, s)),
+          })({ target: e, document: o, resolve: f, reject: a, ops: g }, r)),
         (i[n] = u)
     })
   }
@@ -327,53 +326,51 @@ var Vuefire = (function (e, t) {
   function $(e, t, n) {
     let o
     return [
-      new Promise((i, s) => {
-        o = ('where' in t ? b : p)(e, t, w, i, s, n)
+      new Promise((i, r) => {
+        o = ('where' in t ? p : b)(e, t, w, i, r, n)
       }),
       o,
     ]
   }
-  function R(e, t, n) {
-    console.log('internalUnbind unbinds', t),
-      t && t[e] && (t[e](n), delete t[e])
+  function P(e, t, n) {
+    t && t[e] && (t[e](n), delete t[e])
   }
-  const P = {
+  const z = {
       bindName: '$bind',
       unbindName: '$unbind',
       serialize: a.serialize,
       reset: a.reset,
       wait: a.wait,
     },
-    z = new WeakMap()
+    R = new WeakMap()
   return (
     (e.firestoreBind = function (e, n, o) {
-      t.isRef(e) || (console.log('ref-ifying 2'), (e = t.ref(e)))
-      const [i, s] = $(e, n, o)
+      const [i, r] = $(e, n, o)
       return (
-        z.set(e, { '': s }),
+        R.set(e, { '': r }),
         t.getCurrentInstance() &&
           t.onBeforeUnmount(() => {
-            s(o && o.reset)
+            r(o && o.reset)
           }),
         i
       )
     }),
-    (e.firestorePlugin = function (e, n = P) {
-      const o = Object.assign({}, P, n),
-        { bindName: i, unbindName: s } = o,
-        r = t.isVue3 ? e.config.globalProperties : e.prototype
-      ;(r[s] = function (e, t) {
-        R(e, z.get(this), t), delete this.$firestoreRefs[e]
+    (e.firestorePlugin = function (e, n = z) {
+      const o = Object.assign({}, z, n),
+        { bindName: i, unbindName: r } = o,
+        s = t.isVue3 ? e.config.globalProperties : e.prototype
+      ;(s[r] = function (e, t) {
+        P(e, R.get(this), t), delete this.$firestoreRefs[e]
       }),
-        (r[i] = function (e, n, i) {
-          const s = Object.assign({}, o, i),
-            r = t.toRef(this.$data, e)
-          let c = z.get(this)
+        (s[i] = function (e, n, i) {
+          const r = Object.assign({}, o, i),
+            s = t.toRef(this.$data, e)
+          let c = R.get(this)
           c
             ? c[e] &&
-              c[e](s.wait ? 'function' == typeof s.reset && s.reset : s.reset)
-            : z.set(this, (c = {}))
-          const [f, a] = $(r, n, s)
+              c[e](r.wait ? 'function' == typeof r.reset && r.reset : r.reset)
+            : R.set(this, (c = {}))
+          const [f, a] = $(s, n, r)
           return (c[e] = a), (this.$firestoreRefs[e] = n), f
         }),
         e.mixin({
@@ -386,43 +383,43 @@ var Vuefire = (function (e, t) {
             if (t) for (const e in t) this[i](e, t[e], o)
           },
           beforeUnmount() {
-            const e = z.get(this)
+            const e = R.get(this)
             if (e) for (const t in e) e[t]()
             this.$firestoreRefs = null
           },
         })
     }),
     (e.firestoreUnbind = (e, t) => {
-      console.log('unbind', z), R('', z.get(e), t)
+      P('', R.get(e), t)
     }),
     (e.rtdbBind = function (e, n, o) {
       const i = {}
       j.set(e, i)
-      const s = y(e, '', n, i, o)
+      const r = y(e, '', n, i, o)
       return (
         t.getCurrentInstance() &&
           t.onBeforeUnmount(() => {
             O(e, o && o.reset)
           }),
-        s
+        r
       )
     }),
     (e.rtdbPlugin = function (e, n = v) {
       const o = Object.assign({}, v, n),
-        { bindName: i, unbindName: s } = o,
-        r = t.isVue3 ? e.config.globalProperties : e.prototype
-      ;(r[s] = function (e, t) {
+        { bindName: i, unbindName: r } = o,
+        s = t.isVue3 ? e.config.globalProperties : e.prototype
+      ;(s[r] = function (e, t) {
         m(e, j.get(this), t), delete this.$firebaseRefs[e]
       }),
-        (r[i] = function (e, n, i) {
-          const s = Object.assign({}, o, i),
-            r = t.toRef(this.$data, e)
+        (s[i] = function (e, n, i) {
+          const r = Object.assign({}, o, i),
+            s = t.toRef(this.$data, e)
           let c = j.get(this)
           c
             ? c[e] &&
-              c[e](s.wait ? 'function' == typeof s.reset && s.reset : s.reset)
+              c[e](r.wait ? 'function' == typeof r.reset && r.reset : r.reset)
             : j.set(this, (c = {}))
-          const f = y(r, e, n, c, s)
+          const f = y(s, e, n, c, r)
           return (this.$firebaseRefs[e] = n.ref), f
         }),
         e.mixin({

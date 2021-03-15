@@ -1,7 +1,7 @@
 import { createSnapshot, extractRefs, FirestoreSerializer } from './utils'
 import { walkGet, callOnceWithArg, OperationsType } from '../shared'
 import * as firestore from '@firebase/firestore-types'
-import { isRef, ref, Ref, unref } from 'vue-demi'
+import { ref, Ref, unref } from 'vue-demi'
 
 export interface FirestoreOptions {
   maxRefDepth?: number

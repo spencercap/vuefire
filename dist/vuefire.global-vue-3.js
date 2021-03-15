@@ -569,10 +569,10 @@ var Vuefire = (function (exports, vueDemi) {
     // const boundRefs = Object.create(null)
     // TODO figure out how to support reactive fields, not just Ref targets
     // attempt
-    if (!vueDemi.isRef(target)) {
-      console.log('ref-ifying 1')
-      target = vueDemi.ref(target)
-    }
+    // if (!isRef(target)) {
+    //   console.log('ref-ifying 1')
+    //   target = ref(target)
+    // }
     const subs = Object.create(null)
     // bind here the function so it can be resolved anywhere
     // this is specially useful for refs
@@ -783,7 +783,7 @@ var Vuefire = (function (exports, vueDemi) {
     return [promise, unbind]
   }
   function internalUnbind(key, unbinds, reset) {
-    console.log('internalUnbind unbinds', unbinds)
+    // console.log('internalUnbind unbinds', unbinds)
     if (unbinds && unbinds[key]) {
       unbinds[key](reset)
       delete unbinds[key]
@@ -894,10 +894,10 @@ var Vuefire = (function (exports, vueDemi) {
   function bind(target, docOrCollectionRef, options) {
     // const unbinds = {}
     // firestoreUnbinds.set(target, unbinds)
-    if (!vueDemi.isRef(target)) {
-      console.log('ref-ifying 2')
-      target = vueDemi.ref(target)
-    }
+    // if (!isRef(target)) {
+    //   console.log('ref-ifying 2')
+    //   target = ref(target)
+    // }
     const [promise, unbind] = internalBind(target, docOrCollectionRef, options)
     const unbinds = {
       '': unbind,
@@ -916,7 +916,7 @@ var Vuefire = (function (exports, vueDemi) {
     return promise
   }
   const unbind = (target, reset) => {
-    console.log('unbind', firestoreUnbinds)
+    // console.log('unbind', firestoreUnbinds)
     internalUnbind('', firestoreUnbinds.get(target), reset)
   }
 
