@@ -451,7 +451,8 @@ function bindCollection(
       const subs = arraySubs[newIndex]
       const [data, refs] = extractRefs(options.serialize(doc), undefined, subs)
       // ops.add(unref(arrayRef), newIndex, data)
-      ops.add(coll, doc.id, data)
+      // ops.add(coll, doc.id, data)
+      ops.add(target[key], doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -472,8 +473,8 @@ function bindCollection(
       arraySubs.splice(newIndex, 0, subs)
       // ops.remove(array, oldIndex)
       // ops.add(array, newIndex, data)
-      ops.add(coll, doc.id, data)
-      // ops.add(target[key], doc.id, data)
+      // ops.add(coll, doc.id, data)
+      ops.add(target[key], doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -488,8 +489,8 @@ function bindCollection(
     removed: ({ oldIndex, doc }) => {
       // const array = unref(arrayRef)
       // ops.remove(array, oldIndex)
-      ops.remove(coll, doc.id)
-      // ops.remove(target[key], doc.id)
+      // ops.remove(coll, doc.id)
+      ops.remove(target[key], doc.id)
       unsubscribeAll(arraySubs.splice(oldIndex, 1)[0])
     },
   }
@@ -767,8 +768,8 @@ const ops = {
   // used by bindDocument
   set: (target, key, value) => walkSet(target, key, value),
   // used by bindCollection
-  add: (target, key, data) => target.set(key, data),
-  remove: (target, key) => target.delete(key),
+  add: (target, key, data) => target?.set(key, data),
+  remove: (target, key) => target?.delete(key),
   // not deep reactive
   // add: (map, key, data) => map.set(key, data),
   // remove: (map, key) => map.delete(key)

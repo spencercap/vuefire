@@ -154,23 +154,24 @@ var Vuefire = (function (e, t) {
     let g
     const y = [],
       m = {
-        added: ({ newIndex: e, doc: t }) => {
-          y.splice(e, 0, Object.create(null))
-          const n = y[e],
-            [s, r] = a(c.serialize(t), void 0, n)
-          o.add(d, t.id, s), h(c, p, `value.${e}`, n, r, o, 0, i.bind(null, t))
+        added: ({ newIndex: t, doc: n }) => {
+          y.splice(t, 0, Object.create(null))
+          const s = y[t],
+            [r, f] = a(c.serialize(n), void 0, s)
+          o.add(e[l], n.id, r),
+            h(c, p, `value.${t}`, s, f, o, 0, i.bind(null, n))
         },
-        modified: ({ oldIndex: e, newIndex: n, doc: s }) => {
-          const r = t.unref(p),
-            f = y[e],
-            u = r[e],
-            [l, b] = a(c.serialize(s), u, f)
-          y.splice(n, 0, f),
-            o.add(d, s.id, l),
-            h(c, p, `value.${n}`, f, b, o, 0, i)
+        modified: ({ oldIndex: n, newIndex: s, doc: r }) => {
+          const f = t.unref(p),
+            u = y[n],
+            d = f[n],
+            [b, g] = a(c.serialize(r), d, u)
+          y.splice(s, 0, u),
+            o.add(e[l], r.id, b),
+            h(c, p, `value.${s}`, u, g, o, 0, i)
         },
-        removed: ({ oldIndex: e, doc: t }) => {
-          o.remove(d, t.id), u(y.splice(e, 1)[0])
+        removed: ({ oldIndex: t, doc: n }) => {
+          o.remove(e[l], n.id), u(y.splice(t, 1)[0])
         },
       },
       v = n.onSnapshot((n) => {
@@ -318,8 +319,8 @@ var Vuefire = (function (e, t) {
   const O = (e, t) => m('', j.get(e), t),
     w = {
       set: (e, t, n) => o(e, t, n),
-      add: (e, t, n) => e.set(t, n),
-      remove: (e, t) => e.delete(t),
+      add: (e, t, n) => e?.set(t, n),
+      remove: (e, t) => e?.delete(t),
     }
   function $(e, t, n) {
     let o

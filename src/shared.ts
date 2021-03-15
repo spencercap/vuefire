@@ -5,8 +5,12 @@ export interface OperationsType {
   // add: (array: any[], index: number, data: firestore.DocumentData) => any
   // remove: (array: any[], index: number) => any
   // as Map
-  add: (map: Map<string, any>, key: string, data: firestore.DocumentData) => any
-  remove: (map: Map<string, any>, key: string) => any
+  add: (
+    map: undefined | Map<string, any>,
+    key: string,
+    data: firestore.DocumentData
+  ) => any
+  remove: (map: undefined | Map<string, any>, key: string) => any
 }
 
 export type ResetOption = boolean | (() => any)
