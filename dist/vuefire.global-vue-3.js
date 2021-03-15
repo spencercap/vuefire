@@ -915,17 +915,40 @@ var Vuefire = (function (exports, vueDemi) {
     }
     return promise
   }
+  function useFirestore(docOrCollectionRef, options) {
+    const target =
+      'where' in docOrCollectionRef ? vueDemi.ref(null) : vueDemi.ref([])
+    let unbind
+    const promise = new Promise((resolve, reject) => {
+      unbind = ('where' in docOrCollectionRef ? bindCollection : bindDocument)(
+        target,
+        // the type is good because of the ternary
+        docOrCollectionRef,
+        ops,
+        resolve,
+        reject,
+        options
+      )
+    })
+    if (vueDemi.getCurrentInstance()) {
+      vueDemi.onUnmounted(() => unbind())
+    }
+    return [target, promise, unbind]
+  }
   const unbind = (target, reset) => {
     // console.log('unbind', firestoreUnbinds)
     internalUnbind('', firestoreUnbinds.get(target), reset)
   }
 
-  exports.firestoreBind = bind
+  exports.bind = bind
   exports.firestorePlugin = firestorePlugin
-  exports.firestoreUnbind = unbind
+  exports.internalUnbind = internalUnbind
+  exports.ops = ops
   exports.rtdbBind = bind$1
   exports.rtdbPlugin = rtdbPlugin
   exports.rtdbUnbind = unbind$1
+  exports.unbind = unbind
+  exports.useFirestore = useFirestore
 
   Object.defineProperty(exports, '__esModule', { value: true })
 

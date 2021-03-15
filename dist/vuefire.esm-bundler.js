@@ -10,6 +10,7 @@ import {
   toRef,
   getCurrentInstance,
   onBeforeUnmount,
+  onUnmounted,
 } from 'vue-demi'
 
 /**
@@ -903,16 +904,38 @@ function bind(target, docOrCollectionRef, options) {
   }
   return promise
 }
+function useFirestore(docOrCollectionRef, options) {
+  const target = 'where' in docOrCollectionRef ? ref(null) : ref([])
+  let unbind
+  const promise = new Promise((resolve, reject) => {
+    unbind = ('where' in docOrCollectionRef ? bindCollection : bindDocument)(
+      target,
+      // the type is good because of the ternary
+      docOrCollectionRef,
+      ops,
+      resolve,
+      reject,
+      options
+    )
+  })
+  if (getCurrentInstance()) {
+    onUnmounted(() => unbind())
+  }
+  return [target, promise, unbind]
+}
 const unbind = (target, reset) => {
   // console.log('unbind', firestoreUnbinds)
   internalUnbind('', firestoreUnbinds.get(target), reset)
 }
 
 export {
-  bind as firestoreBind,
+  bind,
   firestorePlugin,
-  unbind as firestoreUnbind,
+  internalUnbind,
+  ops,
   bind$1 as rtdbBind,
   rtdbPlugin,
   unbind$1 as rtdbUnbind,
+  unbind,
+  useFirestore,
 }
