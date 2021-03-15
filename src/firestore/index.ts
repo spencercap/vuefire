@@ -338,10 +338,10 @@ export function bindDocument(
 
   // TODO figure out how to support reactive fields, not just Ref targets
   // attempt
-  if (!isRef(target)) {
-    console.log('ref-ifying 1')
-    target = ref(target)
-  }
+  // if (!isRef(target)) {
+  //   console.log('ref-ifying 1')
+  //   target = ref(target)
+  // }
 
   const subs = Object.create(null)
   // bind here the function so it can be resolved anywhere
