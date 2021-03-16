@@ -1,5 +1,5 @@
 /*!
- * vuefire v3.0.0-alpha.4
+ * vuefire v3.0.0-alpha.5
  * (c) 2021 Eduardo San Martin Morote
  * @license MIT
  */
