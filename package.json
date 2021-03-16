@@ -1,6 +1,6 @@
 {
   "name": "vuefire",
-  "version": "3.0.0-alpha.5",
+  "version": "3.0.0-alpha.6",
   "description": "Some awesome description",
   "main": "dist/vuefire.cjs.js",
   "unpkg": "dist/vuefire.global-vue-2.js",
@@ -98,7 +98,7 @@
     }
   ],
   "peerDependencies": {
-    "@vue/composition-api": "^1.0.0",
+    "@vue/composition-api": "1.x",
     "vue": "^2.0.0 || >=3.0.0-rc.0"
   },
   "repository": {
