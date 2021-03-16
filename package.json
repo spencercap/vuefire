@@ -98,7 +98,7 @@
     }
   ],
   "peerDependencies": {
-    "@vue/composition-api": "1.x",
+    "@vue/composition-api": "^1.0.0-rc.5",
     "vue": "^2.0.0 || >=3.0.0-rc.0"
   },
   "repository": {
