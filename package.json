@@ -1,6 +1,6 @@
 {
   "name": "vuefire",
-  "version": "3.0.0-alpha.14",
+  "version": "3.0.0-alpha.15",
   "description": "Some awesome description",
   "main": "dist/vuefire.cjs.js",
   "unpkg": "dist/vuefire.global-vue-2.js",
@@ -98,7 +98,7 @@
     }
   ],
   "peerDependencies": {
-    "vue": "^3.0.6"
+    "vue": "^3.0.5"
   },
   "repository": {
     "type": "git",
