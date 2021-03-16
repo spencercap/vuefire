@@ -23,8 +23,11 @@ export const ops: OperationsType = {
   // used by bindDocument
   set: (target, key, value) => walkSet(target, key, value),
   // used by bindCollection
-  add: (target, key, data) => target.set(key, data),
-  remove: (target, key) => target.delete(key),
+  mapAdd: (target, key, data) => target.set(key, data),
+  mapRemove: (target, key) => target.delete(key),
+  // arrays
+  add: (array, index, data) => array.splice(index, 0, data),
+  remove: (array, index) => array.splice(index, 1),
   // add: (target, key, data) => target && target.set(key, data),
   // remove: (target, key) => target && target.delete(key),
   //

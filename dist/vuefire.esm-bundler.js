@@ -1,5 +1,5 @@
 /*!
- * vuefire v3.0.0-alpha.3
+ * vuefire v3.0.0-alpha.4
  * (c) 2021 Eduardo San Martin Morote
  * @license MIT
  */
@@ -456,7 +456,7 @@ function bindCollection(
       const [data, refs] = extractRefs(options.serialize(doc), undefined, subs)
       // ops.add(unref(arrayRef), newIndex, data)
       // ops.add(coll, doc.id, data)
-      ops.add(target[key], doc.id, data)
+      ops.mapAdd(target[key], doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -478,7 +478,7 @@ function bindCollection(
       // ops.remove(array, oldIndex)
       // ops.add(array, newIndex, data)
       // ops.add(coll, doc.id, data)
-      ops.add(target[key], doc.id, data)
+      ops.mapAdd(target[key], doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -494,7 +494,7 @@ function bindCollection(
       // const array = unref(arrayRef)
       // ops.remove(array, oldIndex)
       // ops.remove(coll, doc.id)
-      ops.remove(target[key], doc.id)
+      ops.mapRemove(target[key], doc.id)
       unsubscribeAll(arraySubs.splice(oldIndex, 1)[0])
     },
   }
@@ -626,6 +626,9 @@ const ops$1 = {
   set: (target, key, value) => walkSet(target, key, value),
   add: (array, index, data) => array.splice(index, 0, data),
   remove: (array, index) => array.splice(index, 1),
+  // for maps
+  mapAdd: (target, key, data) => target.set(key, data),
+  mapRemove: (target, key) => target.delete(key),
 }
 function internalBind$1(target, key, source, unbinds, options) {
   return new Promise((resolve, reject) => {
@@ -770,8 +773,11 @@ const ops = {
   // used by bindDocument
   set: (target, key, value) => walkSet(target, key, value),
   // used by bindCollection
-  add: (target, key, data) => target.set(key, data),
-  remove: (target, key) => target.delete(key),
+  mapAdd: (target, key, data) => target.set(key, data),
+  mapRemove: (target, key) => target.delete(key),
+  // arrays
+  add: (array, index, data) => array.splice(index, 0, data),
+  remove: (array, index) => array.splice(index, 1),
   // add: (target, key, data) => target && target.set(key, data),
   // remove: (target, key) => target && target.delete(key),
   //

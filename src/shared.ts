@@ -2,11 +2,15 @@ import * as firestore from '@firebase/firestore-types'
 
 export interface OperationsType {
   set: (target: Record<string, any>, key: string | number, value: any) => any
-  // add: (array: any[], index: number, data: firestore.DocumentData) => any
-  // remove: (array: any[], index: number) => any
+  add: (array: any[], index: number, data: firestore.DocumentData) => any
+  remove: (array: any[], index: number) => any
   // as Map
-  add: (map: Map<string, any>, key: string, data: firestore.DocumentData) => any
-  remove: (map: Map<string, any>, key: string) => any
+  mapAdd: (
+    map: Map<string, any>,
+    key: string,
+    data: firestore.DocumentData
+  ) => any
+  mapRemove: (map: Map<string, any>, key: string) => any
 }
 
 export type ResetOption = boolean | (() => any)

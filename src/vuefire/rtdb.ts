@@ -33,6 +33,9 @@ const ops: OperationsType = {
   set: (target, key, value) => walkSet(target, key, value),
   add: (array, index, data) => array.splice(index, 0, data),
   remove: (array, index) => array.splice(index, 1),
+  // for maps
+  mapAdd: (target, key, data) => target.set(key, data),
+  mapRemove: (target, key) => target.delete(key),
 }
 
 function internalBind(

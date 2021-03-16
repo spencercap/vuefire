@@ -212,7 +212,7 @@ export function bindCollection(
       const [data, refs] = extractRefs(options.serialize(doc), undefined, subs)
       // ops.add(unref(arrayRef), newIndex, data)
       // ops.add(coll, doc.id, data)
-      ops.add(target[key], doc.id, data)
+      ops.mapAdd(target[key], doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -234,7 +234,7 @@ export function bindCollection(
       // ops.remove(array, oldIndex)
       // ops.add(array, newIndex, data)
       // ops.add(coll, doc.id, data)
-      ops.add(target[key], doc.id, data)
+      ops.mapAdd(target[key], doc.id, data)
       subscribeToRefs(
         options,
         arrayRef,
@@ -250,7 +250,7 @@ export function bindCollection(
       // const array = unref(arrayRef)
       // ops.remove(array, oldIndex)
       // ops.remove(coll, doc.id)
-      ops.remove(target[key], doc.id)
+      ops.mapRemove(target[key], doc.id)
       unsubscribeAll(arraySubs.splice(oldIndex, 1)[0])
     },
   }

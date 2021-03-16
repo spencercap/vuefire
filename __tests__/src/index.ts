@@ -71,4 +71,7 @@ export const createOps = (localWalkSet: WalkSet = walkSet) => ({
   add: jest.fn((array, index, data) => array.splice(index, 0, data)),
   set: jest.fn(localWalkSet),
   remove: jest.fn((array, index) => array.splice(index, 1)),
+  // for maps
+  mapAdd: jest.fn((target, key, data) => target.set(key, data)),
+  mapRemove: jest.fn((target, key) => target.delete(key)),
 })
