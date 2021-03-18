@@ -1,5 +1,5 @@
 /*!
- * vuefire v3.0.0-alpha.14
+ * vuefire v3.0.0-alpha.16
  * (c) 2021 Eduardo San Martin Morote
  * @license MIT
  */
@@ -472,13 +472,15 @@ function bindCollection(
       const array = unref(arrayRef)
       const subs = arraySubs[oldIndex]
       const oldData = array[oldIndex]
-      const [data, refs] = extractRefs(options.serialize(doc), oldData, subs)
+      // const [data, refs] = extractRefs(options.serialize(doc), oldData, subs)
+      const [, refs] = extractRefs(options.serialize(doc), oldData, subs)
       // only move things around after extracting refs
       arraySubs.splice(newIndex, 0, subs)
       // ops.remove(array, oldIndex)
       // ops.add(array, newIndex, data)
       // ops.add(coll, doc.id, data)
-      ops.mapAdd(target[key], doc.id, data)
+      // ops.mapAdd(target[key], doc.id, data)
+      ops.mapAdd(target[key], doc.id, doc.data())
       subscribeToRefs(
         options,
         arrayRef,

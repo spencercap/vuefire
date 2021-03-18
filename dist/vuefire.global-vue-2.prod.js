@@ -1,5 +1,5 @@
 /*!
- * vuefire v3.0.0-alpha.14
+ * vuefire v3.0.0-alpha.16
  * (c) 2021 Eduardo San Martin Morote
  * @license MIT
  */
@@ -165,10 +165,10 @@ var Vuefire = (function (e, t) {
           const f = t.unref(h),
             u = m[n],
             d = f[n],
-            [b, g] = a(c.serialize(r), d, u)
+            [, b] = a(c.serialize(r), d, u)
           m.splice(s, 0, u),
-            o.mapAdd(e[l], r.id, b),
-            p(c, h, `value.${s}`, u, g, o, 0, i)
+            o.mapAdd(e[l], r.id, r.data()),
+            p(c, h, `value.${s}`, u, b, o, 0, i)
         },
         removed: ({ oldIndex: t, doc: n }) => {
           o.mapRemove(e[l], n.id), u(m.splice(t, 1)[0])
